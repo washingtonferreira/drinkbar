@@ -70,6 +70,9 @@ public class JanelaCadastroCliente extends JFrame {
 	private JScrollPane jScrollPane;
 	private JButton btnListarClientes;
 	private FachadaCliente fachada = new FachadaCliente();
+	private MaskFormatter mascaraCep;
+	private MaskFormatter mascaraTelefone;
+	private MaskFormatter mascaraCpf;
 
 	public JanelaCadastroCliente() throws ParseException {
 
@@ -149,6 +152,9 @@ public class JanelaCadastroCliente extends JFrame {
 		painelCadastroCliente.add(jlCep);
 
 		textCep = new JTextField();
+		mascaraCep = new MaskFormatter("##.###-###");
+		mascaraCep.setPlaceholderCharacter('_');
+		textCep = new JFormattedTextField(mascaraCep);
 		textCep.setBounds(158, 139, 120, 20);
 		painelCadastroCliente.add(textCep);
 		textCep.setColumns(10);
@@ -158,8 +164,7 @@ public class JanelaCadastroCliente extends JFrame {
 		painelCadastroCliente.add(lblNewLabel);
 
 		textTelefoneCliente = new JTextField();
-		// criando uma MASCARA para o campo onde sera informado o TELEFONE
-		MaskFormatter mascaraTelefone = new MaskFormatter("(##)#### - ####");
+		mascaraTelefone = new MaskFormatter("(##)#### - ####");
 		textTelefoneCliente = new JFormattedTextField(mascaraTelefone);
 		textTelefoneCliente.setColumns(10);
 		textTelefoneCliente.setBounds(310, 139, 120, 20);
@@ -170,8 +175,7 @@ public class JanelaCadastroCliente extends JFrame {
 		painelCadastroCliente.add(jlCpf);
 
 		textCpfCliente = new JTextField();
-		// criando uma MASCARA para o campo onde sera informado o CPF
-		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+		mascaraCpf = new MaskFormatter("###.###.###-##");
 		textCpfCliente = new JFormattedTextField(mascaraCpf);
 		textCpfCliente.setBounds(503, 45, 153, 20);
 		painelCadastroCliente.add(textCpfCliente);
@@ -285,6 +289,19 @@ public class JanelaCadastroCliente extends JFrame {
 		// repositorioCliente.fecharConexaoBancoDados();
 	}// fim do metodo preencher a tabela
 
+	// métodos responsável por limpar os campos após o cadastro de um cliente
+	public void limpaCampos() {
+
+		textCep.setText("");
+		textCidadeCliente.setText("");
+		textCpfCliente.setText("");
+		textTelefoneCliente.setText("");
+		jtextBairroCliente.setText("");
+		jtextEnderecoCliente.setText("");
+		jtextNomeCliente.setText("");
+
+	}// fim do metodo limpar campos
+
 	// classe destinada a tratar os eventos soliciados pelos clientes
 	private class trataEventos implements ActionListener {
 
@@ -305,22 +322,32 @@ public class JanelaCadastroCliente extends JFrame {
 			else if (evento.getSource() == jbntCadastrarCliente) {
 
 				Cliente cliente = new Cliente();
+				String sx = comboSexoCliente.getSelectedItem() + "";
+				cliente.setNome(jtextNomeCliente.getText());
+				cliente.setBairro(jtextBairroCliente.getText());
+				cliente.setCep(textCep.getText());
+				cliente.setCidade(textCidadeCliente.getText());
+				cliente.setCpf(textCpfCliente.getText());
+				cliente.setEndereco(jtextEnderecoCliente.getText());
+				cliente.setTelefone(textTelefoneCliente.getText());
+				cliente.setEstado(comboEstado.getSelectedItem() + " ");
+				cliente.setSexo(sx);
+				// verifica se existe algum campo não preenchido
+				if (jtextBairroCliente.getText().isEmpty()
+						|| jtextEnderecoCliente.getText().isEmpty()
+						|| jtextNomeCliente.getText().isEmpty()
+						|| textCep.getText().isEmpty()
+						|| textCidadeCliente.getText().isEmpty()
+						|| textCpfCliente.getText().isEmpty()
+						|| textTelefoneCliente.getText().isEmpty()) {
 
-				try {
-					String sx = comboSexoCliente.getSelectedItem() + "";
-					cliente.setNome(jtextNomeCliente.getText());
-					cliente.setBairro(jtextBairroCliente.getText());
-					cliente.setCep(textCep.getText());
-					cliente.setCidade(textCidadeCliente.getText());
-					cliente.setCpf(textCpfCliente.getText());
-					cliente.setEndereco(jtextEnderecoCliente.getText());
-					cliente.setTelefone(textTelefoneCliente.getText());
-					cliente.setEstado(comboEstado.getSelectedItem() + " ");
-					cliente.setSexo(sx);
+					JOptionPane.showMessageDialog(null,
+							"Não pode haber campos vazios!", "ATENÇÂO",
+							JOptionPane.ERROR_MESSAGE);
+
+				} else {
 					fachada.cadastraCliente(cliente);
-				} catch (Exception e) {
-
-					JOptionPane.showMessageDialog(null, e.getMessage());
+					limpaCampos();
 				}
 
 			}// fim da estrutura de condcao if

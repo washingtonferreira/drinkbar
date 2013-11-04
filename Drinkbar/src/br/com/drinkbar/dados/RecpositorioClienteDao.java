@@ -1,10 +1,12 @@
 package br.com.drinkbar.dados;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.drinksaqlite.negocio.IRepositorioCliente;
 import br.com.drinksaqlite.negocio.Cliente;
+import br.com.drinksaqlite.negocio.UtilGui;
 
 /**
  * @author Diego Santos
@@ -86,9 +88,8 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		if (novoCliente != null) {
 			if (this.existeCliente(novoCliente.getCpf()) == true) {
 
-				throw new Exception("Cliente: " + novoCliente.getNome()
-						+ "\nCPF: " + novoCliente.getCpf()
-						+ "\nJÁ ESTÁ CADASTRADO!!");
+				UtilGui.errorMessage("CPF: " + novoCliente.getCpf()
+						+ " já cadastrado.");
 			} else if (this.existeCliente(novoCliente.getCpf()) == false) {
 				sql = "INSERT INTO main.cliente(mome_cliente,endereco_cliente,bairro_cliente,cidade_cliente,estado_cliente,cep_cliente,telefone_cliente,cpf_cliente,sexo_cliente)VALUES(?,?,?,?,?,?,?,?,?)";
 				/*
@@ -107,10 +108,13 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 				comandoQuery.setString(7, novoCliente.getTelefone());
 				comandoQuery.setString(8, novoCliente.getCpf());
 				comandoQuery.setString(9, novoCliente.getSexo());
-				comandoQuery.executeUpdate();
-				throw new Exception("Cliente: " + novoCliente.getNome()
-						+ "\nCPF: " + novoCliente.getCpf()
-						+ "\nCADASTRADO COM SUCESSO!!");
+
+				if (comandoQuery.executeUpdate() > 0) {
+
+					UtilGui.successMessage("Cliente: " + novoCliente.getNome()
+							+ "\nCPF: " + novoCliente.getCpf()
+							+ "\nCADASTRADO COM SUCESSO!!");
+				}
 
 			} // fim do if existe
 

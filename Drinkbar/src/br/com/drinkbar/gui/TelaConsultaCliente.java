@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.drinkbar.dados.RecpositorioClienteDao;
 import br.com.drinksaqlite.negocio.Cliente;
 import br.com.drinksaqlite.negocio.FachadaCliente;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class TelaConsultaCliente extends JFrame {
 
@@ -27,9 +29,10 @@ public class TelaConsultaCliente extends JFrame {
 	private JButton bntPesquisar;
 	private DefaultTableModel modeloTabela;
 	private JTable tabelaCliente;
+	private JComboBox<String> comboBox;
 
 	public TelaConsultaCliente() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(500, 500);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
@@ -37,6 +40,11 @@ public class TelaConsultaCliente extends JFrame {
 		getContentPane().add(painel, BorderLayout.NORTH);
 
 		fachada = new FachadaCliente();
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
+				"Nome", "Endereco", "Bairro", "Cidade", "Estado", "Cep",
+				"Telefone", "Cpf", "Sexo" }));
+		painel.add(comboBox);
 
 		textPesquisar = new JTextField();
 		painel.add(textPesquisar);
@@ -92,7 +100,6 @@ public class TelaConsultaCliente extends JFrame {
 
 	private class trataEventos implements ActionListener {
 
-		private Cliente cliente;
 		private List<Cliente> clientes;
 
 		@Override
@@ -101,7 +108,9 @@ public class TelaConsultaCliente extends JFrame {
 			if (e.getSource() == bntPesquisar) {
 
 				try {
-					clientes = fachada.pesquisarCliente(textPesquisar.getText());
+
+					clientes = fachada
+							.pesquisarCliente(textPesquisar.getText());
 
 					for (int i = 0; i < clientes.size(); i++) {
 
@@ -118,12 +127,14 @@ public class TelaConsultaCliente extends JFrame {
 					}
 
 				} catch (Exception e1) {
-
 					System.err.println(e1.getMessage());
 				}
+
+				textPesquisar.setText("");
 
 			}
 
 		}
-	}
+	}// fim da classe TratarEvento
+
 }
