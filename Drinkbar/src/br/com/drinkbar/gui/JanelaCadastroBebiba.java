@@ -4,14 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
+import javax.swing.ImageIcon;
 
 public class JanelaCadastroBebiba extends JFrame {
 	private JTextField textNomeBebida;
@@ -31,11 +38,12 @@ public class JanelaCadastroBebiba extends JFrame {
 	private JButton btnCancelar;
 	private JButton btnSair;
 
-	public JanelaCadastroBebiba() {
+	public JanelaCadastroBebiba() throws ParseException {
 		setTitle("DrinksBar - Cadastro de Bebidas");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 274);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(false);
+		setSize(496, 271);
 
 		painelPrincipal = new JPanel();
 		getContentPane().add(painelPrincipal, BorderLayout.CENTER);
@@ -44,7 +52,7 @@ public class JanelaCadastroBebiba extends JFrame {
 		painelCadastro = new JPanel();
 		painelCadastro.setBorder(new TitledBorder(null, "Cadastro - Bebida",
 				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
-		painelCadastro.setBounds(10, 11, 464, 213);
+		painelCadastro.setBounds(10, 11, 470, 221);
 		painelPrincipal.add(painelCadastro);
 		painelCadastro.setLayout(null);
 
@@ -79,6 +87,9 @@ public class JanelaCadastroBebiba extends JFrame {
 		painelCadastro.add(lblDataDeFabricao);
 
 		textDataFabricacaoBebida = new JTextField();
+		// criando a mascara para o campo onde sera informado a DATA
+		MaskFormatter mascaraCelular = new MaskFormatter("##/##/####");
+		textDataFabricacaoBebida = new JFormattedTextField(mascaraCelular);
 		textDataFabricacaoBebida.setColumns(10);
 		textDataFabricacaoBebida.setBounds(181, 88, 153, 20);
 		painelCadastro.add(textDataFabricacaoBebida);
@@ -92,17 +103,47 @@ public class JanelaCadastroBebiba extends JFrame {
 		lblPreo.setBounds(354, 73, 46, 14);
 		painelCadastro.add(lblPreo);
 
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(49, 154, 89, 23);
+		btnCadastrar = new JButton("");
+		btnCadastrar.setIcon(new ImageIcon(JanelaCadastroBebiba.class
+				.getResource("/br/com/drinkbar/gui/imagens/Add-icon.png")));
+		btnCadastrar.setToolTipText("Cadastrar bebida");
+		btnCadastrar.setBounds(67, 135, 65, 41);
 		painelCadastro.add(btnCadastrar);
 
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(187, 154, 89, 23);
+		btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(JanelaCadastroBebiba.class
+				.getResource("/br/com/drinkbar/gui/imagens/cancel.png")));
+		btnCancelar.setToolTipText("Cancelar cadastro");
+		btnCancelar.setBounds(199, 135, 65, 41);
 		painelCadastro.add(btnCancelar);
 
-		btnSair = new JButton("sair");
-		btnSair.setBounds(325, 154, 89, 23);
+		btnSair = new JButton("");
+		btnSair.setToolTipText("Sair");
+		btnSair.addActionListener(new TrataEvento());
+		btnSair.setIcon(new ImageIcon(JanelaCadastroBebiba.class
+				.getResource("/br/com/drinkbar/gui/imagens/sair.jpg")));
+		btnSair.setBounds(331, 135, 65, 41);
 		painelCadastro.add(btnSair);
-	}
+	}// fim do metodo costrutor construtor
+
+	private class TrataEvento implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent evento) {
+
+			if (evento.getSource() == btnSair) {
+
+				if (JOptionPane.showConfirmDialog(null, "Deseja Sair?",
+						"ATENÇÂO!", JOptionPane.YES_NO_OPTION) == 0) {
+
+					dispose();
+
+				}// fim do if menor
+
+			}// fim do if maior
+
+		}// fim dp metoso actionPerformed
+
+	}// fim da classe TrataEvento
 
 }

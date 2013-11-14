@@ -13,11 +13,11 @@ public interface IRepositorioCliente {
 
 	public boolean existeCliente(String cpf) throws Exception;
 
-	public List<cliente> pesquisarCliente(String cpf) throws Exception;
+	public List<Cliente> pesquisarCliente(String cpf) throws Exception;
 
-	public void cadastrarCliente(cliente novoCliente) throws Exception;
+	public void cadastrarCliente(Cliente novoCliente) throws Exception;
 
-	public void atualizarCliente(cliente cliente) throws Exception;
+	public void atualizarCliente(Cliente cliente) throws Exception;
 
 	public void excluirCliente(String cpf) throws Exception;
 

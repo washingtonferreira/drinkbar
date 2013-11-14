@@ -3,7 +3,7 @@ package br.com.drinkbar.dados;
 import java.util.List;
 
 import br.com.drinksaqlite.negocio.IRepositorioCliente;
-import br.com.drinksaqlite.negocio.cliente;
+import br.com.drinksaqlite.negocio.Cliente;
 
 /**
  * @author Diego Santos
@@ -29,7 +29,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	}
 
 	@Override
-	public List<cliente> pesquisarCliente(String cpf) throws Exception {
+	public List<Cliente> pesquisarCliente(String cpf) throws Exception {
 
 		return null;
 	}
@@ -43,7 +43,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	 * .drinksaqlite.negocio.cliente)
 	 */
 	@Override
-	public void cadastrarCliente(cliente novoCliente) throws Exception {
+	public void cadastrarCliente(Cliente novoCliente) throws Exception {
 
 		/*
 		 * metodo herdado da classe ConectaSqlite para abrir conexao com a base
@@ -86,7 +86,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	}// fim do metodo cadastrarCliente
 
 	@Override
-	public void atualizarCliente(cliente cliente) throws Exception {
+	public void atualizarCliente(Cliente cliente) throws Exception {
 		// TODO Auto-generated method stub
 
 	}

@@ -30,7 +30,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
 import br.com.drinkbar.dados.RecpositorioClienteDao;
-import br.com.drinksaqlite.negocio.cliente;
+import br.com.drinksaqlite.negocio.Cliente;
 
 public class JanelaCadastroCliente extends JFrame {
 
@@ -235,7 +235,7 @@ public class JanelaCadastroCliente extends JFrame {
 
 			if (evento.getSource() == jbntCadastrarCliente) {
 
-				cliente cliente = new cliente();
+				Cliente cliente = new Cliente();
 
 				try {
 					String sx = comboSexoCliente.getSelectedItem() + "";
