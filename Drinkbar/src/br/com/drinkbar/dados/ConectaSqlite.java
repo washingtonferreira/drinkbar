@@ -16,28 +16,28 @@ public class ConectaSqlite {
 
 	private String driverDeConexao = "";
 	private String url = "";
-	Connection con;
+	Connection conexao;
 	PreparedStatement comandoQuery;
 	ResultSet resultSet;// fornece o resultado na consulta ao DB.
 
 	public ConectaSqlite() {
 
 		driverDeConexao = "org.sqlite.JDBC";
-		url = "jdbc:sqlite:drinksbar.slqite";
+		url = "jdbc:sqlite:drinksbar.sqlite";
 	}
 
 	public void abrirConexao() {
 
 		try {
 			Class.forName(driverDeConexao);
-			con = DriverManager.getConnection(url);
+			conexao = DriverManager.getConnection(url);
 
-			if (con != null) {
+			/*if (conexao != null) {
 
 				JOptionPane.showMessageDialog(null, "Conexão bem sucedida",
 						"Caonexao ao Banco de Dados",
 						JOptionPane.INFORMATION_MESSAGE);
-			}
+			}*/
 		}// fim do try
 		catch (ClassNotFoundException e) {
 			System.err.println("driver erro " + e.getMessage());
@@ -51,9 +51,9 @@ public class ConectaSqlite {
 
 	public void fecharConexaoBancoDados() {
 
-		if (con != null) {
+		if (conexao != null) {
 			try {
-				con.close();
+				conexao.close();
 
 				if (comandoQuery != null) {
 
