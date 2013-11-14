@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.ParseException;
 
 import javax.swing.JLabel;
@@ -23,6 +21,10 @@ public class JanelaPrincipal extends JFrame {
 	private JMenu mnCadastro;
 	private JMenuItem itemMenuCadastrarCliente;
 	private JMenuItem itemMenuConsultarCliente;
+	private JMenu menuBebida;
+	private JMenu menuCadastroBebida;
+	private JMenuItem itemMenuCadastrarBebida;
+	private JMenuItem itemMenuConsultarBebida;
 
 	public JanelaPrincipal() {
 
@@ -54,30 +56,51 @@ public class JanelaPrincipal extends JFrame {
 		itemMenuConsultarCliente = new JMenuItem("Consultar");
 		mnCadastro.add(itemMenuConsultarCliente);
 
+		menuBebida = new JMenu("Bebida");
+		menuBar.add(menuBebida);
+
+		menuCadastroBebida = new JMenu("Cadastro");
+		menuBebida.add(menuCadastroBebida);
+
+		itemMenuCadastrarBebida = new JMenuItem("Cadastrar");
+		itemMenuCadastrarBebida.addActionListener(new trataEventos());
+		menuCadastroBebida.add(itemMenuCadastrarBebida);
+
+		itemMenuConsultarBebida = new JMenuItem("Consultar");
+		menuCadastroBebida.add(itemMenuConsultarBebida);
+
 	}// fim do metodo construtor
 
+	// classe responsavel por tratar os eventos solicitados pelo usuario
 	private class trataEventos implements ActionListener {
 
-		private JanelaCadastroCliente telaCadastroCliente;
+		private JanelaCadastroCliente janelaCadastroCliente;
+		private JanelaCadastroBebiba janelaCadastroBebida;
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent evento) {
 
-			if (e.getSource() == itemMenuCadastrarCliente) {
+			if (evento.getSource() == itemMenuCadastrarCliente) {
 
 				try {
-					telaCadastroCliente = new JanelaCadastroCliente();
-					telaCadastroCliente.setVisible(true);
+					janelaCadastroCliente = new JanelaCadastroCliente();
+					janelaCadastroCliente.setVisible(true);
 
-				} catch (ParseException e1) {
+				} catch (ParseException e) {
 
 				}
 
-			}
+			} else if (evento.getSource() == itemMenuCadastrarBebida) {
 
+				try {
+					janelaCadastroBebida = new JanelaCadastroBebiba();
+					janelaCadastroBebida.setVisible(true);
+				} catch (ParseException e) {
+
+				}
+			}
 		}
 
-	}
+	}// fim da classe trataEventos
 
-}// fim da classe trataEventos
-
+}
