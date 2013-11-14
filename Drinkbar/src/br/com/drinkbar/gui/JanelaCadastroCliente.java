@@ -29,6 +29,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+import br.com.drinkbar.dados.RecpositorioClienteDao;
+import br.com.drinksaqlite.negocio.cliente;
+
 public class JanelaCadastroCliente extends JFrame {
 
 	private JPanel painelPrincipal;
@@ -55,6 +58,7 @@ public class JanelaCadastroCliente extends JFrame {
 	private Icon imagemAddCliente;
 	private Icon imagemCancelar;
 	private JLabel lblSexo;
+	private RecpositorioClienteDao repositorioCLiente = new RecpositorioClienteDao();
 
 	public JanelaCadastroCliente() throws ParseException {
 
@@ -182,16 +186,19 @@ public class JanelaCadastroCliente extends JFrame {
 		jbntCadastrarCliente.setBounds(112, 12, 65, 41);
 		painelOperacoes.add(jbntCadastrarCliente);
 		jbntCadastrarCliente.setIcon(imagemAddCliente);
+		jbntCadastrarCliente.addActionListener(new trataEventos());
 		jbntCadastrarCliente.setToolTipText("Cadastrar cliente");
 
 		jbntCancelarCliente = new JButton("");
 		jbntCancelarCliente.setToolTipText("Cancelar cadastro");
 		jbntCancelarCliente.setBounds(289, 12, 65, 41);
+
 		painelOperacoes.add(jbntCancelarCliente);
+
 		jbntCancelarCliente.setIcon(imagemCancelar);
 		jbntSairCliente = new JButton("");
 		jbntSairCliente.setIcon(new ImageIcon(JanelaCadastroCliente.class
-				.getResource("imagens/sair.gif")));
+				.getResource("/br/com/drinkbar/gui/imagens/sair.jpg")));
 		jbntSairCliente.addActionListener(new trataEventos());
 		jbntSairCliente.setBounds(466, 12, 65, 41);
 		painelOperacoes.add(jbntSairCliente);
@@ -224,10 +231,33 @@ public class JanelaCadastroCliente extends JFrame {
 					dispose();
 				}// fim da condição interna
 
-			}// fim do condição externa
+			}// fim do condição externa para o evento SAIR
+
+			if (evento.getSource() == jbntCadastrarCliente) {
+
+				cliente cliente = new cliente();
+
+				try {
+					String sx = comboSexoCliente.getSelectedItem() + "";
+					char sexo = sx.charAt(0);
+					cliente.setNome(jtextNomeCliente.getText());
+					cliente.setBairro(jtextBairroCliente.getText());
+					cliente.setCep(textCep.getText());
+					cliente.setCidade(textCidadeCliente.getText());
+					cliente.setCpf(textCpfCliente.getText());
+					cliente.setEndereco(jtextEnderecoCliente.getText());
+					cliente.setTelefone(textTelefoneCliente.getText());
+					cliente.setEstado(comboEstado.getSelectedItem() + " ");
+					cliente.setSexo(sexo);
+					repositorioCLiente.cadastrarCliente(cliente);
+				} catch (Exception e) {
+
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+
+			}// fim da estrutura de condcao if
 
 		}// fim do método actionPerformed
-
 	}// fim da classe trataEventos
 
 }
