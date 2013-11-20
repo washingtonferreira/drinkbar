@@ -11,7 +11,10 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
@@ -23,10 +26,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import br.com.drinkbar.dados.RecpositorioClienteDao;
@@ -58,15 +63,22 @@ public class JanelaCadastroCliente extends JFrame {
 	private Icon imagemAddCliente;
 	private Icon imagemCancelar;
 	private JLabel lblSexo;
-	private RecpositorioClienteDao repositorioCLiente = new RecpositorioClienteDao();
+	private RecpositorioClienteDao repositorioCliente;
+	private DefaultTableModel modeloTabela;
+	private JTable tabelaCliente;
+	private JScrollPane jScrollPane;
+	private JButton btnListarClientes;
 
 	public JanelaCadastroCliente() throws ParseException {
 
 		setTitle("DrinksBar - Cadastro de Cliente");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(691, 424);
+		setSize(691, 492);
+		setLocationRelativeTo(null);
 		setResizable(false);
+
+		repositorioCliente = new RecpositorioClienteDao();
 
 		painelPrincipal = new JPanel();
 		getContentPane().add(painelPrincipal, BorderLayout.CENTER);
@@ -78,7 +90,7 @@ public class JanelaCadastroCliente extends JFrame {
 		painelCadastroCliente.setBorder(new TitledBorder(null,
 				"Cadatro - Cliente", TitledBorder.LEADING, TitledBorder.TOP,
 				null, Color.BLUE));
-		painelCadastroCliente.setBounds(10, 11, 666, 376);
+		painelCadastroCliente.setBounds(10, 11, 666, 442);
 		painelPrincipal.add(painelCadastroCliente);
 		// configurando o painel de cadastro de cliente como absoluto.
 		painelCadastroCliente.setLayout(null);
@@ -207,7 +219,7 @@ public class JanelaCadastroCliente extends JFrame {
 		painelTabelaCliente.setBorder(new TitledBorder(null,
 				"Lista de Cliente", TitledBorder.LEADING, TitledBorder.TOP,
 				null, Color.BLUE));
-		painelTabelaCliente.setBounds(10, 245, 646, 124);
+		painelTabelaCliente.setBounds(10, 274, 646, 157);
 		painelCadastroCliente.add(painelTabelaCliente);
 		painelTabelaCliente.setLayout(new BorderLayout(0, 0));
 
@@ -215,7 +227,60 @@ public class JanelaCadastroCliente extends JFrame {
 		lblSexo.setBounds(578, 123, 65, 14);
 		painelCadastroCliente.add(lblSexo);
 
+		btnListarClientes = new JButton("Listar Clientes");
+		btnListarClientes.setBounds(10, 245, 120, 23);
+		btnListarClientes.addActionListener(new trataEventos());
+		painelCadastroCliente.add(btnListarClientes);
+
+		criarTabela();
+
 	}// fim do método construtor
+
+	// metodo responsavel por criar uma tabela
+	public void criarTabela() {
+
+		modeloTabela = new DefaultTableModel();
+		tabelaCliente = new JTable(modeloTabela);
+		jScrollPane = new JScrollPane(tabelaCliente);
+		modeloTabela.addColumn("Nome");
+		modeloTabela.addColumn("Cpf");
+		modeloTabela.addColumn("Telefone");
+		tabelaCliente.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tabelaCliente.getColumnModel().getColumn(1).setPreferredWidth(20);
+		tabelaCliente.getColumnModel().getColumn(2).setPreferredWidth(20);
+		painelTabelaCliente.add(jScrollPane);
+
+	}// fim do metodo criar tabela
+
+	// metodo para preencher a tabela
+	public void preencherTablela(String sql) {
+
+		repositorioCliente.abrirConexao();
+		try {
+
+			repositorioCliente.comandoQuery = repositorioCliente.conexao
+					.prepareStatement(sql);
+			repositorioCliente.resultSet = repositorioCliente.comandoQuery
+					.executeQuery();
+
+			ResultSet rs = repositorioCliente.resultSet;
+
+			do {
+
+				modeloTabela.addRow(new Object[] {
+						rs.getString("mome_cliente"),
+						rs.getString("cpf_cliente"),
+						rs.getString("telefone_cliente") });
+
+			} while (rs.next());
+
+		} catch (SQLException e) {
+
+			JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela: "
+					+ e);
+		}
+
+	}// fim do metodo preencher a tabela
 
 	// classe destinada a tratar os eventos soliciados pelos clientes
 	private class trataEventos implements ActionListener {
@@ -233,7 +298,8 @@ public class JanelaCadastroCliente extends JFrame {
 
 			}// fim do condição externa para o evento SAIR
 
-			if (evento.getSource() == jbntCadastrarCliente) {
+			// condicao para cadastrar um cliente
+			else if (evento.getSource() == jbntCadastrarCliente) {
 
 				Cliente cliente = new Cliente();
 
@@ -249,7 +315,7 @@ public class JanelaCadastroCliente extends JFrame {
 					cliente.setTelefone(textTelefoneCliente.getText());
 					cliente.setEstado(comboEstado.getSelectedItem() + " ");
 					cliente.setSexo(sexo);
-					repositorioCLiente.cadastrarCliente(cliente);
+					repositorioCliente.cadastrarCliente(cliente);
 				} catch (Exception e) {
 
 					JOptionPane.showMessageDialog(null, e.getMessage());
@@ -257,7 +323,12 @@ public class JanelaCadastroCliente extends JFrame {
 
 			}// fim da estrutura de condcao if
 
+			// condicao para listar cliente
+			else if (evento.getSource() == btnListarClientes) {
+
+				preencherTablela("SELECT * FROM cliente");
+			}
+
 		}// fim do método actionPerformed
 	}// fim da classe trataEventos
-
 }
