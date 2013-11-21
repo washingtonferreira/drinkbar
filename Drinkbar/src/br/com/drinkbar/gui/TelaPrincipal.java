@@ -38,11 +38,14 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem itemMenuBebidas;
 	private JMenu mnCadastros;
 	private JMenuBar menuBar;
+	private JMenu mnConsultas;
+	private JMenuItem itemMenuConsultaCliente;
+	private JMenuItem itemMenuConsultasBebidas;
 
 	public TelaPrincipal() {
 		super("Drinks Bar");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 500);
+		setSize(507, 583);
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -62,12 +65,26 @@ public class TelaPrincipal extends JFrame {
 		itemMenuClientes.addActionListener(new trataEventos());
 		mnCadastros.add(itemMenuClientes);
 
+		mnConsultas = new JMenu("CONSULTAS");
+		menuBar.add(mnConsultas);
+
+		itemMenuConsultaCliente = new JMenuItem("Clientes");
+		itemMenuConsultaCliente.setIcon(new ImageIcon(TelaPrincipal.class
+				.getResource("/br/com/drinkbar/gui/imagens/pesquisar.png")));
+		itemMenuConsultaCliente.addActionListener(new trataEventos());
+		mnConsultas.add(itemMenuConsultaCliente);
+
+		itemMenuConsultasBebidas = new JMenuItem("Bebidas");
+		itemMenuConsultasBebidas.setIcon(new ImageIcon(TelaPrincipal.class
+				.getResource("/br/com/drinkbar/gui/imagens/pesquisar.png")));
+		mnConsultas.add(itemMenuConsultasBebidas);
+
 		panelBotoes = new JPanel();
 		getContentPane().add(panelBotoes, BorderLayout.CENTER);
 		panelBotoes.setLayout(null);
 
 		panelBntCliBeer = new JPanel();
-		panelBntCliBeer.setBounds(0, 0, 584, 56);
+		panelBntCliBeer.setBounds(0, 0, 491, 56);
 		panelBotoes.add(panelBntCliBeer);
 		panelBntCliBeer.setLayout(new GridLayout(1, 3));
 
@@ -88,6 +105,16 @@ public class TelaPrincipal extends JFrame {
 				.getResource("/br/com/drinkbar/gui/imagens/Beer_Icon_32.png")));
 		panelBntCliBeer.add(btnBebidas);
 
+		JPanel panelLogMarca = new JPanel();
+		panelLogMarca.setBounds(0, 56, 503, 468);
+		panelBotoes.add(panelLogMarca);
+		panelLogMarca.setLayout(new BorderLayout(0, 0));
+
+		JLabel lblLogMarca = new JLabel("New label");
+		lblLogMarca.setIcon(new ImageIcon(TelaPrincipal.class
+				.getResource("/br/com/drinkbar/gui/imagens/imgPrincipal.jpg")));
+		panelLogMarca.add(lblLogMarca, BorderLayout.CENTER);
+
 	}
 
 	// classe responsavel por tratar os eventos solicitados pelo usuario
@@ -95,6 +122,7 @@ public class TelaPrincipal extends JFrame {
 
 		private JanelaCadastroCliente janelaCadastroCliente;
 		private JanelaCadastroBebiba janelaCadastroBebida;
+		private TelaConsultaCliente telaConsultaCliente;
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
@@ -117,6 +145,11 @@ public class TelaPrincipal extends JFrame {
 				} catch (ParseException e) {
 
 				}
+			} else if (evento.getSource() == itemMenuConsultaCliente) {
+
+				telaConsultaCliente = new TelaConsultaCliente();
+				telaConsultaCliente.setVisible(true);
+
 			}
 		}
 

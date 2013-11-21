@@ -25,7 +25,22 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	@Override
 	public boolean existeCliente(String cpf) throws Exception {
 
-		return false;
+		boolean achou = false;
+
+		sql = "SELECT * FROM cliente WHERE cpf_cliente = ?";
+		comandoQuery = conexao.prepareStatement(sql);
+		comandoQuery.setString(1, cpf);
+		resultSet = comandoQuery.executeQuery();
+		if (cpf != null) {
+			if (resultSet.next()) {
+				achou = true;
+			} else {
+
+				achou = false;
+			}
+		}
+
+		return achou;
 	}
 
 	@Override
@@ -35,13 +50,6 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	}
 
 	// metodo responsalvel pela insercao de um cliente no banco de dados
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * br.com.drinksaqlite.negocio.IRepositorioCliente#cadastrarCliente(br.com
-	 * .drinksaqlite.negocio.cliente)
-	 */
 	@Override
 	public void cadastrarCliente(Cliente novoCliente) throws Exception {
 
@@ -52,35 +60,43 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		abrirConexao();
 
 		if (novoCliente != null) {
+			if (this.existeCliente(novoCliente.getCpf()) == true) {
 
-			sql = "INSERT INTO main.cliente(mome_cliente,endereco_cliente,bairro_cliente,cidade_cliente,estado_cliente,cep_cliente,telefone_cliente,cpf_cliente,sexo_cliente)VALUES(?,?,?,?,?,?,?,?,?)";
-			/*
-			 * comandoQuery e conexao atributos herdados da classe ConectaSqlite
-			 * 
-			 * preparedStatement permite criar instruções SQL
-			 */
-			comandoQuery = conexao.prepareStatement(sql);
-			comandoQuery.setString(1, novoCliente.getNome());
-			comandoQuery.setString(2, novoCliente.getEndereco());
-			comandoQuery.setString(3, novoCliente.getBairro());
-			comandoQuery.setString(4, novoCliente.getCidade());
-			comandoQuery.setString(5, novoCliente.getEstado());
-			comandoQuery.setString(6, novoCliente.getCep());
-			comandoQuery.setString(7, novoCliente.getTelefone());
-			comandoQuery.setString(8, novoCliente.getCpf());
-			// convertendo o atributo do tipo char para string
-			String sexo = String.valueOf(novoCliente.getSexo());
-			comandoQuery.setString(9, sexo);
-			comandoQuery.execute();
+				throw new Exception("Cliente: " + novoCliente.getNome()
+						+ "\nCPF: " + novoCliente.getCpf()
+						+ "\nJÁ ESTÁ CADASTRADO!!");
+			} else if (this.existeCliente(novoCliente.getCpf()) == false) {
+				sql = "INSERT INTO main.cliente(mome_cliente,endereco_cliente,bairro_cliente,cidade_cliente,estado_cliente,cep_cliente,telefone_cliente,cpf_cliente,sexo_cliente)VALUES(?,?,?,?,?,?,?,?,?)";
+				/*
+				 * comandoQuery e conexao atributos herdados da classe
+				 * ConectaSqlite
+				 * 
+				 * preparedStatement permite criar instruções SQL
+				 */
+				comandoQuery = conexao.prepareStatement(sql);
+				comandoQuery.setString(1, novoCliente.getNome());
+				comandoQuery.setString(2, novoCliente.getEndereco());
+				comandoQuery.setString(3, novoCliente.getBairro());
+				comandoQuery.setString(4, novoCliente.getCidade());
+				comandoQuery.setString(5, novoCliente.getEstado());
+				comandoQuery.setString(6, novoCliente.getCep());
+				comandoQuery.setString(7, novoCliente.getTelefone());
+				comandoQuery.setString(8, novoCliente.getCpf());
+				// convertendo o atributo do tipo char para string
+				String sexo = String.valueOf(novoCliente.getSexo());
+				comandoQuery.setString(9, sexo);
+				comandoQuery.executeUpdate();
+				throw new Exception("Cliente: " + novoCliente.getNome()
+						+ "\nCPF: " + novoCliente.getCpf()
+						+ "\nCADASTRADO COM SUCESSO!!");
 
-			throw new Exception("Cliente: " + novoCliente.getNome() + "\nCPF: "
-					+ novoCliente.getCpf() + "\nCADASTRADO COM SUCESSO!!");
-			/*
-			 * metodo herdado da classe ConectaSqlite para fechar conexao com a
-			 * base de dados
-			 */
+			} // fim do if existe
 
 		}// fim do if
+		/*
+		 * metodo herdado da classe ConectaSqlite para fechar conexao com a base
+		 * de dados
+		 */
 		fecharConexaoBancoDados();
 
 	}// fim do metodo cadastrarCliente

@@ -17,7 +17,7 @@ public class ConectaSqlite {
 	private String driverDeConexao = "";
 	private String url = "";
 	public Connection conexao;
-	public PreparedStatement comandoQuery;
+	public PreparedStatement comandoQuery = null;
 	public ResultSet resultSet;// fornece o resultado na consulta ao DB.
 
 	public ConectaSqlite() {
@@ -31,13 +31,6 @@ public class ConectaSqlite {
 		try {
 			Class.forName(driverDeConexao);
 			conexao = DriverManager.getConnection(url);
-
-			/*
-			 * if (conexao != null) {
-			 * 
-			 * JOptionPane.showMessageDialog(null, "Conexão bem sucedida",
-			 * "Caonexao ao Banco de Dados", JOptionPane.INFORMATION_MESSAGE); }
-			 */
 		}// fim do try
 		catch (ClassNotFoundException e) {
 			System.err.println("driver erro " + e.getMessage());
@@ -51,21 +44,20 @@ public class ConectaSqlite {
 
 	public void fecharConexaoBancoDados() {
 
-		if (conexao != null) {
+		if (conexao != null && comandoQuery != null) {
 			try {
+
 				conexao.close();
+				comandoQuery.close();
 
-				if (comandoQuery != null) {
-
-					comandoQuery.close();
-
-				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				System.err.println(e.getClass().getName() + ": "
+						+ e.getMessage());
+
 			}
 		}
 
-	}
+	}// fim do metodo fecharBD
 
 }

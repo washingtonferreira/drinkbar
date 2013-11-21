@@ -42,8 +42,9 @@ public class JanelaCadastroBebiba extends JFrame {
 		setTitle("DrinksBar - Cadastro de Bebidas");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setResizable(false);
 		setSize(496, 271);
+		setLocationRelativeTo(null);
+		setResizable(false);
 
 		painelPrincipal = new JPanel();
 		getContentPane().add(painelPrincipal, BorderLayout.CENTER);

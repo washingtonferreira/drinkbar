@@ -36,6 +36,7 @@ import javax.swing.text.MaskFormatter;
 
 import br.com.drinkbar.dados.RecpositorioClienteDao;
 import br.com.drinksaqlite.negocio.Cliente;
+import br.com.drinksaqlite.negocio.FachadaCliente;
 
 public class JanelaCadastroCliente extends JFrame {
 
@@ -63,11 +64,12 @@ public class JanelaCadastroCliente extends JFrame {
 	private Icon imagemAddCliente;
 	private Icon imagemCancelar;
 	private JLabel lblSexo;
-	private RecpositorioClienteDao repositorioCliente;
+	private RecpositorioClienteDao repCliente;
 	private DefaultTableModel modeloTabela;
 	private JTable tabelaCliente;
 	private JScrollPane jScrollPane;
 	private JButton btnListarClientes;
+	private FachadaCliente fachada = new FachadaCliente();
 
 	public JanelaCadastroCliente() throws ParseException {
 
@@ -77,8 +79,6 @@ public class JanelaCadastroCliente extends JFrame {
 		setSize(691, 492);
 		setLocationRelativeTo(null);
 		setResizable(false);
-
-		repositorioCliente = new RecpositorioClienteDao();
 
 		painelPrincipal = new JPanel();
 		getContentPane().add(painelPrincipal, BorderLayout.CENTER);
@@ -246,8 +246,11 @@ public class JanelaCadastroCliente extends JFrame {
 		modeloTabela.addColumn("Cpf");
 		modeloTabela.addColumn("Telefone");
 		tabelaCliente.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tabelaCliente.getColumnModel().getColumn(0).setResizable(false);
 		tabelaCliente.getColumnModel().getColumn(1).setPreferredWidth(20);
+		tabelaCliente.getColumnModel().getColumn(1).setResizable(false);
 		tabelaCliente.getColumnModel().getColumn(2).setPreferredWidth(20);
+		tabelaCliente.getColumnModel().getColumn(2).setResizable(false);
 		painelTabelaCliente.add(jScrollPane);
 
 	}// fim do metodo criar tabela
@@ -255,15 +258,14 @@ public class JanelaCadastroCliente extends JFrame {
 	// metodo para preencher a tabela
 	public void preencherTablela(String sql) {
 
-		repositorioCliente.abrirConexao();
+		repCliente = new RecpositorioClienteDao();
+		repCliente.abrirConexao();
 		try {
 
-			repositorioCliente.comandoQuery = repositorioCliente.conexao
-					.prepareStatement(sql);
-			repositorioCliente.resultSet = repositorioCliente.comandoQuery
-					.executeQuery();
+			repCliente.comandoQuery = repCliente.conexao.prepareStatement(sql);
+			repCliente.resultSet = repCliente.comandoQuery.executeQuery();
 
-			ResultSet rs = repositorioCliente.resultSet;
+			ResultSet rs = repCliente.resultSet;
 
 			do {
 
@@ -280,6 +282,7 @@ public class JanelaCadastroCliente extends JFrame {
 					+ e);
 		}
 
+		// repositorioCliente.fecharConexaoBancoDados();
 	}// fim do metodo preencher a tabela
 
 	// classe destinada a tratar os eventos soliciados pelos clientes
@@ -315,7 +318,7 @@ public class JanelaCadastroCliente extends JFrame {
 					cliente.setTelefone(textTelefoneCliente.getText());
 					cliente.setEstado(comboEstado.getSelectedItem() + " ");
 					cliente.setSexo(sexo);
-					repositorioCliente.cadastrarCliente(cliente);
+					fachada.cadastraCliente(cliente);
 				} catch (Exception e) {
 
 					JOptionPane.showMessageDialog(null, e.getMessage());
