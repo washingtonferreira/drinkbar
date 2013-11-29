@@ -10,16 +10,14 @@ public class Cliente {
 	private String cep;
 	private String telefone;
 	private String cpf;
-	private char sexo;
+	private String sexo;
 
-	
-	
 	public Cliente() {
 		super();
 	}
 
 	public Cliente(String nome, String endereco, String bairro, String cidade,
-			String estado, String cep, String telefone, String cpf, char sexo) {
+			String estado, String cep, String telefone, String cpf, String sexo) {
 		super();
 		this.nome = nome;
 		this.endereco = endereco;
@@ -96,14 +94,12 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 
-	public char getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(char sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	
-	
 
 }

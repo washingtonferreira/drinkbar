@@ -1,5 +1,6 @@
 package br.com.drinkbar.dados;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.drinksaqlite.negocio.IRepositorioCliente;
@@ -44,9 +45,32 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	}
 
 	@Override
-	public List<Cliente> pesquisarCliente(String cpf) throws Exception {
+	public List<Cliente> pesquisarCliente(String text) throws Exception {
 
-		return null;
+		List<Cliente> clientes = new ArrayList<>();
+		Cliente cliente = new Cliente();
+
+		sql = "SELECT * FROM cliente WHERE mome_cliente = ? OR cep_cliente = ?";
+		abrirConexao();
+		comandoQuery = conexao.prepareStatement(sql);
+		comandoQuery.setString(1, text);
+		comandoQuery.setString(2, text);
+		resultSet = comandoQuery.executeQuery();
+		while (resultSet.next()) {
+			cliente.setNome(resultSet.getString("mome_cliente"));
+			cliente.setCpf(resultSet.getString("cpf_cliente"));
+			cliente.setTelefone(resultSet.getString("telefone_cliente"));
+			cliente.setBairro(resultSet.getString("bairro_cliente"));
+			cliente.setCep(resultSet.getString("cep_cliente"));
+			cliente.setCidade(resultSet.getString("cidade_cliente"));
+			cliente.setEndereco(resultSet.getString("endereco_cliente"));
+			cliente.setEstado(resultSet.getString("estado_cliente"));
+			cliente.setSexo(resultSet.getString("sexo_cliente"));
+			clientes.add(cliente);
+
+		}
+
+		return clientes;
 	}
 
 	// metodo responsalvel pela insercao de um cliente no banco de dados
@@ -82,9 +106,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 				comandoQuery.setString(6, novoCliente.getCep());
 				comandoQuery.setString(7, novoCliente.getTelefone());
 				comandoQuery.setString(8, novoCliente.getCpf());
-				// convertendo o atributo do tipo char para string
-				String sexo = String.valueOf(novoCliente.getSexo());
-				comandoQuery.setString(9, sexo);
+				comandoQuery.setString(9, novoCliente.getSexo());
 				comandoQuery.executeUpdate();
 				throw new Exception("Cliente: " + novoCliente.getNome()
 						+ "\nCPF: " + novoCliente.getCpf()

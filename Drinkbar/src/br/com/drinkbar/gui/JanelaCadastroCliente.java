@@ -308,7 +308,6 @@ public class JanelaCadastroCliente extends JFrame {
 
 				try {
 					String sx = comboSexoCliente.getSelectedItem() + "";
-					char sexo = sx.charAt(0);
 					cliente.setNome(jtextNomeCliente.getText());
 					cliente.setBairro(jtextBairroCliente.getText());
 					cliente.setCep(textCep.getText());
@@ -317,7 +316,7 @@ public class JanelaCadastroCliente extends JFrame {
 					cliente.setEndereco(jtextEnderecoCliente.getText());
 					cliente.setTelefone(textTelefoneCliente.getText());
 					cliente.setEstado(comboEstado.getSelectedItem() + " ");
-					cliente.setSexo(sexo);
+					cliente.setSexo(sx);
 					fachada.cadastraCliente(cliente);
 				} catch (Exception e) {
 
