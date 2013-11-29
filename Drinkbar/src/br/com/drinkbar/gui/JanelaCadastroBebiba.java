@@ -20,6 +20,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.ImageIcon;
 
+import br.com.drinksaqlite.negocio.Bebida;
+import br.com.drinksaqlite.negocio.FachadaBebida;
+
 public class JanelaCadastroBebiba extends JFrame {
 	private JTextField textNomeBebida;
 	private JTextField textFabricante;
@@ -37,6 +40,7 @@ public class JanelaCadastroBebiba extends JFrame {
 	private JButton btnCadastrar;
 	private JButton btnCancelar;
 	private JButton btnSair;
+	private FachadaBebida fachada;
 
 	public JanelaCadastroBebiba() throws ParseException {
 		setTitle("DrinksBar - Cadastro de Bebidas");
@@ -45,6 +49,8 @@ public class JanelaCadastroBebiba extends JFrame {
 		setSize(496, 271);
 		setLocationRelativeTo(null);
 		setResizable(false);
+
+		fachada = new FachadaBebida();
 
 		painelPrincipal = new JPanel();
 		getContentPane().add(painelPrincipal, BorderLayout.CENTER);
@@ -108,6 +114,7 @@ public class JanelaCadastroBebiba extends JFrame {
 		btnCadastrar.setIcon(new ImageIcon(JanelaCadastroBebiba.class
 				.getResource("/br/com/drinkbar/gui/imagens/Add-icon.png")));
 		btnCadastrar.setToolTipText("Cadastrar bebida");
+		btnCadastrar.addActionListener(new TrataEvento());
 		btnCadastrar.setBounds(67, 135, 65, 41);
 		painelCadastro.add(btnCadastrar);
 
@@ -129,6 +136,8 @@ public class JanelaCadastroBebiba extends JFrame {
 
 	private class TrataEvento implements ActionListener {
 
+		private Bebida bebida;
+
 		@Override
 		public void actionPerformed(ActionEvent evento) {
 
@@ -142,9 +151,31 @@ public class JanelaCadastroBebiba extends JFrame {
 				}// fim do if menor
 
 			}// fim do if maior
+			else if (evento.getSource() == btnCadastrar) {
+
+				bebida = new Bebida();
+
+				try {
+
+					double preco = Double
+							.parseDouble(textPrecoBebida.getText());
+
+					bebida.setDataFabricacao(textDataFabricacaoBebida.getText());
+					bebida.setFabricante(textFabricante.getText());
+					bebida.setNome(textNomeBebida.getText());
+					bebida.setPreco(preco);
+					bebida.setTipo(textTipoBebida.getText());
+
+					fachada.cadastrarBebida(bebida);
+
+				} catch (Exception e) {
+
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+
+			}
 
 		}// fim dp metoso actionPerformed
-
 	}// fim da classe TrataEvento
 
 }
