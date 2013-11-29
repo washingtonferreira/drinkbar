@@ -41,6 +41,7 @@ public class TelaPrincipal extends JFrame {
 	private JMenu mnConsultas;
 	private JMenuItem itemMenuConsultaCliente;
 	private JMenuItem itemMenuConsultasBebidas;
+	private JButton btnVendas;
 
 	public TelaPrincipal() {
 		super("Drinks Bar");
@@ -104,6 +105,12 @@ public class TelaPrincipal extends JFrame {
 		btnBebidas.setIcon(new ImageIcon(TelaPrincipal.class
 				.getResource("/br/com/drinkbar/gui/imagens/Beer_Icon_32.png")));
 		panelBntCliBeer.add(btnBebidas);
+
+		btnVendas = new JButton("Vendas");
+		btnVendas.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/com/drinkbar/gui/imagens/ic_tab_aluguel.png")));
+		btnVendas.setBackground(SystemColor.menu);
+		btnVendas.setFont(new Font("Verdana", Font.PLAIN, 11));
+		panelBntCliBeer.add(btnVendas);
 
 		JPanel panelLogMarca = new JPanel();
 		panelLogMarca.setBounds(0, 56, 503, 468);
