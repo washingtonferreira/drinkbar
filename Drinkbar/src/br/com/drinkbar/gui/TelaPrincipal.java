@@ -90,6 +90,7 @@ public class TelaPrincipal extends JFrame {
 		panelBntCliBeer.setLayout(new GridLayout(1, 3));
 
 		btnClientes = new JButton("Clientes");
+		btnClientes.addActionListener(new trataEventos());
 		btnClientes.setBackground(SystemColor.menu);
 		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 11));
 		btnClientes.setForeground(Color.BLACK);
@@ -130,6 +131,7 @@ public class TelaPrincipal extends JFrame {
 		private JanelaCadastroCliente janelaCadastroCliente;
 		private JanelaCadastroBebiba janelaCadastroBebida;
 		private TelaConsultaCliente telaConsultaCliente;
+		private FrameMaimCliente frameCliente;
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
@@ -157,6 +159,11 @@ public class TelaPrincipal extends JFrame {
 				telaConsultaCliente = new TelaConsultaCliente();
 				telaConsultaCliente.setVisible(true);
 
+			}else if(evento.getSource() == btnClientes){
+				
+				frameCliente = new FrameMaimCliente();
+				frameCliente.setVisible(true);
+				
 			}
 		}
 
