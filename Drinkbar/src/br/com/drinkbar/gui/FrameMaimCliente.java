@@ -14,8 +14,10 @@ public class FrameMaimCliente extends JFrame {
 	private JTabbedPane tabbedPane;
 
 	public FrameMaimCliente() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 720, 551);
+		setLocationRelativeTo(null);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -27,5 +29,7 @@ public class FrameMaimCliente extends JFrame {
 		tabbedPane.addTab("Cadastro", painelCliente);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 	}
+	
+	
 
 }
