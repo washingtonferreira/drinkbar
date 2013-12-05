@@ -26,6 +26,12 @@ public class FachadaCliente {
 		} catch (Exception e) {
 			LOG.error("Erro ao cadastrar cliente: " + e.getMessage());
 		}
+
+		/*
+		 * metodo herdado da classe ConectaSqlite para fechar conexao com a base
+		 * de dados
+		 */
+		//reporCliente.fecharConexaoBancoDados();
 	}
 
 	public List<Cliente> pesquisarCliente(String text) throws Exception {

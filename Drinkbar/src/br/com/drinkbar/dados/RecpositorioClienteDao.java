@@ -119,11 +119,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 			} // fim do if existe
 
 		}// fim do if
-		/*
-		 * metodo herdado da classe ConectaSqlite para fechar conexao com a base
-		 * de dados
-		 */
-		fecharConexaoBancoDados();
+		
 
 	}// fim do metodo cadastrarCliente
 
