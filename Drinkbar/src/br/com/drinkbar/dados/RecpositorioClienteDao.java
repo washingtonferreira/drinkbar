@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import br.com.drinksaqlite.negocio.IRepositorioCliente;
 import br.com.drinksaqlite.negocio.Cliente;
 import br.com.drinksaqlite.negocio.UtilGui;
@@ -20,6 +21,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		IRepositorioCliente {
 
 	private String sql = "";
+	private static Logger LOG = Logger.getLogger(RecpositorioClienteDao.class);
 
 	public RecpositorioClienteDao() {
 		super();
@@ -52,13 +54,12 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		List<Cliente> clientes = new ArrayList<>();
 		Cliente cliente = new Cliente();
 
-		sql = "SELECT * FROM cliente WHERE mome_cliente = ? OR cep_cliente = ?";
+		sql = "SELECT * FROM cliente WHERE cpf_cliente = ?";
 		abrirConexao();
 		comandoQuery = conexao.prepareStatement(sql);
 		comandoQuery.setString(1, text);
-		comandoQuery.setString(2, text);
 		resultSet = comandoQuery.executeQuery();
-		while (resultSet.next()) {
+		if (resultSet.next()) {
 			cliente.setNome(resultSet.getString("mome_cliente"));
 			cliente.setCpf(resultSet.getString("cpf_cliente"));
 			cliente.setTelefone(resultSet.getString("telefone_cliente"));
@@ -119,7 +120,6 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 			} // fim do if existe
 
 		}// fim do if
-		
 
 	}// fim do metodo cadastrarCliente
 
@@ -134,5 +134,6 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

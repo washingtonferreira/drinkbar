@@ -40,6 +40,8 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem itemMenuConsultaCliente;
 	private JMenuItem itemMenuConsultasBebidas;
 	private JButton btnVendas;
+	private JPanel panelLogMarca;
+	private JLabel lblLogMarca;
 
 	public TelaPrincipal() {
 		super("Drinks Bar");
@@ -107,6 +109,7 @@ public class TelaPrincipal extends JFrame {
 		panelBntCliBeer.add(btnBebidas);
 
 		btnVendas = new JButton("Vendas");
+		btnVendas.addActionListener(new trataEventos());
 		btnVendas
 				.setIcon(new ImageIcon(
 						TelaPrincipal.class
@@ -115,12 +118,12 @@ public class TelaPrincipal extends JFrame {
 		btnVendas.setFont(new Font("Verdana", Font.PLAIN, 11));
 		panelBntCliBeer.add(btnVendas);
 
-		JPanel panelLogMarca = new JPanel();
+		panelLogMarca = new JPanel();
 		panelLogMarca.setBounds(0, 56, 503, 468);
 		panelBotoes.add(panelLogMarca);
 		panelLogMarca.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblLogMarca = new JLabel("New label");
+		lblLogMarca = new JLabel("New label");
 		lblLogMarca.setIcon(new ImageIcon(TelaPrincipal.class
 				.getResource("/br/com/drinkbar/gui/imagens/imgPrincipal.jpg")));
 		panelLogMarca.add(lblLogMarca, BorderLayout.CENTER);
@@ -134,6 +137,7 @@ public class TelaPrincipal extends JFrame {
 		private JanelaCadastroBebiba janelaCadastroBebida;
 		private TelaConsultaCliente telaConsultaCliente;
 		private FrameMaimCliente frameCliente;
+		private JanelaVenda janelaVenda;
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
@@ -166,6 +170,14 @@ public class TelaPrincipal extends JFrame {
 				frameCliente = new FrameMaimCliente();
 				frameCliente.setVisible(true);
 
+			} else if (evento.getSource() == btnVendas) {
+
+				try {
+					janelaVenda = new JanelaVenda();
+					janelaVenda.setVisible(true);
+				} catch (ParseException e) {
+
+				}
 			}
 		}
 

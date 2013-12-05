@@ -12,6 +12,7 @@ public class FrameMaimCliente extends JFrame {
 	private JPanel contentPane;
 	private PainelCadastroCliente painelCliente;
 	private JTabbedPane tabbedPane;
+	private PanelConsultarCliente painelConsultaCliente;
 
 	public FrameMaimCliente() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -24,12 +25,12 @@ public class FrameMaimCliente extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 
 		painelCliente = new PainelCadastroCliente();
+		painelConsultaCliente = new PanelConsultarCliente();
 
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Cadastro", painelCliente);
+		tabbedPane.addTab("Consultar", painelConsultaCliente);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 	}
-	
-	
 
 }

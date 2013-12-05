@@ -1,6 +1,8 @@
 package br.com.drinksaqlite.negocio;
 
+import java.sql.SQLException;
 import java.util.List;
+
 
 /**
  * @author Diego Santos
@@ -20,5 +22,5 @@ public interface IRepositorioCliente {
 	public void atualizarCliente(Cliente cliente) throws Exception;
 
 	public void excluirCliente(String cpf) throws Exception;
-
+	
 }
