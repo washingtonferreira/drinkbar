@@ -44,18 +44,22 @@ public class ConectaSqlite {
 
 	public void fecharConexaoBancoDados() {
 
-		if (conexao != null && comandoQuery != null) {
-			try {
+		try {
 
+			if (conexao != null) {
 				conexao.close();
-				comandoQuery.close();
-
-			} catch (SQLException e) {
-
-				System.err.println(e.getClass().getName() + ": "
-						+ e.getMessage());
-
 			}
+			if (comandoQuery != null) {
+				comandoQuery.close();
+			}
+			if (resultSet != null) {
+
+				resultSet.close();
+			}
+		} catch (SQLException e) {
+
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+
 		}
 
 	}// fim do metodo fecharBD
