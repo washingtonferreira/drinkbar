@@ -2,3 +2,11 @@ DEBUG 20:45:43 [AWT-EventQueue-0] Cadastrando Cliente:
 br.com.drinksaqlite.negocio.Cliente@18f73cb - (FachadaCliente.java:21)
 DEBUG 20:53:13 [AWT-EventQueue-0] Cadastrando Cliente:
 br.com.drinksaqlite.negocio.Cliente@b37089 - (FachadaCliente.java:21)
+DEBUG 10:00:46 [AWT-EventQueue-0] Cadastrando Cliente:
+br.com.drinksaqlite.negocio.Cliente@252a17 - (FachadaCliente.java:23)
+DEBUG 10:03:28 [AWT-EventQueue-0] Cadastrando Cliente:
+br.com.drinksaqlite.negocio.Cliente@ba2e48 - (FachadaCliente.java:23)
+DEBUG 10:05:57 [AWT-EventQueue-0] Cadastrando Cliente:
+br.com.drinksaqlite.negocio.Cliente@15724a0 - (FachadaCliente.java:23)
+DEBUG 10:06:34 [AWT-EventQueue-0] Cadastrando Cliente:
+br.com.drinksaqlite.negocio.Cliente@252a17 - (FachadaCliente.java:23)
