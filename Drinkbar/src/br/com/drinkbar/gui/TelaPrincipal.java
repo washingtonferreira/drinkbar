@@ -4,14 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 import java.awt.GridLayout;
 
@@ -46,6 +44,7 @@ public class TelaPrincipal extends JFrame {
 	public TelaPrincipal() {
 		super("Drinks Bar");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setSize(507, 583);
 
 		menuBar = new JMenuBar();
@@ -108,7 +107,10 @@ public class TelaPrincipal extends JFrame {
 		panelBntCliBeer.add(btnBebidas);
 
 		btnVendas = new JButton("Vendas");
-		btnVendas.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/com/drinkbar/gui/imagens/ic_tab_aluguel.png")));
+		btnVendas
+				.setIcon(new ImageIcon(
+						TelaPrincipal.class
+								.getResource("/br/com/drinkbar/gui/imagens/ic_tab_aluguel.png")));
 		btnVendas.setBackground(SystemColor.menu);
 		btnVendas.setFont(new Font("Verdana", Font.PLAIN, 11));
 		panelBntCliBeer.add(btnVendas);
@@ -159,11 +161,11 @@ public class TelaPrincipal extends JFrame {
 				telaConsultaCliente = new TelaConsultaCliente();
 				telaConsultaCliente.setVisible(true);
 
-			}else if(evento.getSource() == btnClientes){
-				
+			} else if (evento.getSource() == btnClientes) {
+
 				frameCliente = new FrameMaimCliente();
 				frameCliente.setVisible(true);
-				
+
 			}
 		}
 
