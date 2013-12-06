@@ -3,20 +3,24 @@ package br.com.drinkbar.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.com.drinkbar.dados.RecpositorioClienteDao;
 import br.com.drinksaqlite.negocio.Cliente;
 import br.com.drinksaqlite.negocio.FachadaCliente;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 
 public class TelaConsultaCliente extends JFrame {
 
@@ -27,9 +31,9 @@ public class TelaConsultaCliente extends JFrame {
 	private JButton bntPesquisar;
 	private DefaultTableModel modeloTabela;
 	private JTable tabelaCliente;
-	private JComboBox<String> comboBox;
+	private JLabel lblCpf;
 
-	public TelaConsultaCliente() {
+	public TelaConsultaCliente() throws ParseException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(500, 500);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -38,13 +42,13 @@ public class TelaConsultaCliente extends JFrame {
 		getContentPane().add(painel, BorderLayout.NORTH);
 
 		fachada = new FachadaCliente();
-		comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {
-				"Nome", "Endereco", "Bairro", "Cidade", "Estado", "Cep",
-				"Telefone", "Cpf", "Sexo" }));
-		painel.add(comboBox);
+		
+		lblCpf = new JLabel("Cpf:");
+		painel.add(lblCpf);
 
 		textPesquisar = new JTextField();
+		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+		textPesquisar = new JFormattedTextField(mascaraCpf);
 		painel.add(textPesquisar);
 
 		textPesquisar.setColumns(30);

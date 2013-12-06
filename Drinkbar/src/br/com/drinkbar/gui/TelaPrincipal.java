@@ -77,6 +77,7 @@ public class TelaPrincipal extends JFrame {
 		mnConsultas.add(itemMenuConsultaCliente);
 
 		itemMenuConsultasBebidas = new JMenuItem("Bebidas");
+		itemMenuConsultasBebidas.addActionListener(new trataEventos());
 		itemMenuConsultasBebidas.setIcon(new ImageIcon(TelaPrincipal.class
 				.getResource("/br/com/drinkbar/gui/imagens/pesquisar.png")));
 		mnConsultas.add(itemMenuConsultasBebidas);
@@ -138,6 +139,7 @@ public class TelaPrincipal extends JFrame {
 		private TelaConsultaCliente telaConsultaCliente;
 		private FrameMaimCliente frameCliente;
 		private JanelaVenda janelaVenda;
+		private JanelaConsultarBebida consultaBebida;
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
@@ -162,12 +164,22 @@ public class TelaPrincipal extends JFrame {
 				}
 			} else if (evento.getSource() == itemMenuConsultaCliente) {
 
-				telaConsultaCliente = new TelaConsultaCliente();
+				try {
+					telaConsultaCliente = new TelaConsultaCliente();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				telaConsultaCliente.setVisible(true);
 
 			} else if (evento.getSource() == btnClientes) {
 
-				frameCliente = new FrameMaimCliente();
+				try {
+					frameCliente = new FrameMaimCliente();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				frameCliente.setVisible(true);
 
 			} else if (evento.getSource() == btnVendas) {
@@ -178,6 +190,10 @@ public class TelaPrincipal extends JFrame {
 				} catch (ParseException e) {
 
 				}
+			} else if (evento.getSource() == itemMenuConsultasBebidas) {
+
+				consultaBebida = new JanelaConsultarBebida();
+				consultaBebida.setVisible(true);
 			}
 		}
 

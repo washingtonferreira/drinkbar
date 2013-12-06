@@ -25,13 +25,13 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.List;
 
 import javax.swing.SwingConstants;
 
 import br.com.drinkbar.dados.RecpositorioClienteDao;
+import br.com.drinksaqlite.negocio.Bebida;
 import br.com.drinksaqlite.negocio.Cliente;
-import br.com.drinksaqlite.negocio.FachadaCliente;
+import br.com.drinksaqlite.negocio.Transacao;
 
 public class JanelaVenda extends JFrame {
 
@@ -66,13 +66,14 @@ public class JanelaVenda extends JFrame {
 	private JButton btnCancelarVenda;
 	private JLabel lblPreoTotal;
 	private JLabel blCep;
-	private FachadaCliente fachada = null;
 	private DefaultTableModel modeloTabela;
 	private JTable tabelaCliente;
 	private JScrollPane jScrollPane;
 
 	private RecpositorioClienteDao rep;
 	private String sql;
+	private JLabel lblEstado;
+	private JButton btnRemover;
 
 	public JanelaVenda() throws ParseException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -168,7 +169,7 @@ public class JanelaVenda extends JFrame {
 		blCep.setBounds(200, 114, 46, 14);
 		painelInformacaoCliente.add(blCep);
 
-		JLabel lblEstado = new JLabel("Estado:");
+		lblEstado = new JLabel("Estado:");
 		lblEstado.setBounds(376, 114, 46, 14);
 		painelInformacaoCliente.add(lblEstado);
 
@@ -238,12 +239,17 @@ public class JanelaVenda extends JFrame {
 		textPrecoTotal.setBackground(Color.LIGHT_GRAY);
 		textPrecoTotal.setForeground(Color.RED);
 		textPrecoTotal.setHorizontalAlignment(SwingConstants.CENTER);
-		textPrecoTotal.setFont(new Font("Verdana", Font.PLAIN, 40));
+		textPrecoTotal.setFont(new Font("Verdana", Font.PLAIN, 30));
 		textPrecoTotal.setText("0.0");
 		textPrecoTotal.setEditable(false);
-		textPrecoTotal.setBounds(331, 218, 150, 38);
+		textPrecoTotal.setBounds(331, 218, 195, 39);
 		painelBebida.add(textPrecoTotal);
 		textPrecoTotal.setColumns(10);
+
+		btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new TrataEventos());
+		btnRemover.setBounds(113, 47, 89, 23);
+		painelBebida.add(btnRemover);
 
 		criarTabela();
 	}
@@ -273,46 +279,20 @@ public class JanelaVenda extends JFrame {
 
 	}// fim do metodo criar tabela
 
-	// metodo para preencher a tabela
-	public void povoarTabelaBebida(String sql, String criterio) {
+	public void removerRow() {
 
-		rep = new RecpositorioClienteDao();
-		rep.abrirConexao();
-		try {
+		int linhaSelecionada = tabelaCliente.getSelectedRow();
+		if (linhaSelecionada >= 0) {
 
-			rep.comandoQuery = rep.conexao.prepareStatement(sql);
-			rep.comandoQuery.setString(1, criterio);
-			rep.resultSet = rep.comandoQuery.executeQuery();
-
-			ResultSet rs = rep.resultSet;
-			if (rs.next()) {
-				modeloTabela.addRow(new Object[] { rs.getString("tipo_bebida"),
-						rs.getString("nome_bebida"),
-						rs.getString("fabricante_bebida"),
-						rs.getString("dataFabricacao_bebida"),
-						rs.getDouble("preco_bebida") });
-
-			}
-			/*
-			 * do { modeloTabela.addRow(new Object[] {
-			 * rs.getString("tipo_bebida"), rs.getString("nome_bebida"),
-			 * rs.getString("fabricante_bebida"),
-			 * rs.getString("dataFabricacao_bebida"),
-			 * rs.getDouble("preco_bebida") });
-			 * 
-			 * } while (rs.next());
-			 */
-
-		} catch (SQLException e) {
-
-			JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela: "
-					+ e);
+			modeloTabela.removeRow(linhaSelecionada);
 		}
 
-		// repositorioCliente.fecharConexaoBancoDados();
-	}// fim do metodo preencher a tabela
+	}
 
 	private class TrataEventos implements ActionListener {
+
+		private Transacao transacao = new Transacao();
+		private Cliente cliente = new Cliente();
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -320,35 +300,19 @@ public class JanelaVenda extends JFrame {
 			if (e.getSource() == btnConsultarCliente
 					&& !textConsultarCliente.equals("")) {
 
-				sql = " SELECT * FROM cliente WHERE cpf_cliente = ?";
-				rep.abrirConexao();
-
 				try {
-					rep.comandoQuery = rep.conexao.prepareStatement(sql);
-					rep.comandoQuery.setString(1,
-							textConsultarCliente.getText());
-					rep.resultSet = rep.comandoQuery.executeQuery();
+					transacao.PesquisaClienteVenda(
+							textConsultarCliente.getText(), cliente);
+					textBairro.setText(cliente.getBairro());
+					textCep.setText(cliente.getCep());
+					textCidade.setText(cliente.getCidade());
+					textEndereco.setText(cliente.getEndereco());
+					textEstado.setText(cliente.getEstado());
+					textNome.setText(cliente.getNome());
+					textTelefone.setText(cliente.getTelefone());
 
-					if (rep.resultSet.next()) {
+				} catch (Exception e1) {
 
-						textBairro.setText(rep.resultSet
-								.getString("bairro_cliente"));
-						textCep.setText(rep.resultSet.getString("cep_cliente"));
-						textCidade.setText(rep.resultSet
-								.getString("cidade_cliente"));
-						textEndereco.setText(rep.resultSet
-								.getString("endereco_cliente"));
-						textEstado.setText(rep.resultSet
-								.getString("estado_cliente"));
-						textNome.setText(rep.resultSet
-								.getString("mome_cliente"));
-						textTelefone.setText(rep.resultSet
-								.getString("telefone_cliente"));
-
-					}
-
-				} catch (SQLException e2) {
-					System.err.println("Errro: " + e2);
 				}
 
 				textConsultarCliente.setText("");
@@ -356,40 +320,44 @@ public class JanelaVenda extends JFrame {
 			}// fim do if p/ btnConsultarCliente
 			else if (e.getSource() == btnConsultarBebida
 					&& !textConsultarBebida.equals("")) {
-
-				sql = " SELECT * FROM bebida WHERE tipo_bebida = ?";
-				rep.abrirConexao();
+				Bebida bebida = new Bebida();
 				try {
-					rep.comandoQuery = rep.conexao.prepareStatement(sql);
-					rep.comandoQuery
-							.setString(1, textConsultarBebida.getText());
-					rep.resultSet = rep.comandoQuery.executeQuery();
+					transacao.consultarBebida(textConsultarBebida.getText(),
+							bebida);
+					textPrecoBebida.setText(String.valueOf(bebida.getPreco()));
 
-					if (rep.resultSet.next()) {
-
-						double preco = rep.resultSet.getDouble("preco_bebida");
-						textPrecoBebida.setText(String.valueOf(preco));
-					}
-				} catch (SQLException e1) {
-					System.err.println("Erro: " + e1.getMessage());
+				} catch (Exception e1) {
+					
 				}
 
-			}// fim do else p/btnConsultarBebida
+			}// fim do else if p/btnConsultarBebida
 			else if (e.getSource() == btnAdicionarBebida) {
 
 				String criterio = textConsultarBebida.getText();
-				povoarTabelaBebida(
-						"SELECT * FROM bebida WHERE tipo_bebida = ?", criterio);
-				double precoBebibaConsulta = Double.parseDouble(textPrecoBebida
-						.getText());
-				double precoTotal = Double
-						.parseDouble(textPrecoTotal.getText());
-				precoTotal = precoTotal + precoBebibaConsulta;
-				String valorAtualizado = String.valueOf(precoTotal);
-				textPrecoTotal.setText(valorAtualizado);
+
+				try {
+					transacao.povoarTabelaBebida(criterio, modeloTabela);
+
+					// atualiza o total a pagar
+					double precoBebibaConsulta = Double
+							.parseDouble(textPrecoBebida.getText());
+					double precoTotal = Double.parseDouble(textPrecoTotal
+							.getText());
+					precoTotal = precoTotal + precoBebibaConsulta;
+					String valorAtualizado = String.valueOf(precoTotal);
+					textPrecoTotal.setText(valorAtualizado);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+
+			}// fim do else if p/btnConsultarBebida
+			else if (e.getSource() == btnRemover) {
+
+				removerRow();
 
 			}
-		}
+		}// fim do metodo actionPerformed
 
 	}// fim da classe TrataEventos
+
 }

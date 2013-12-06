@@ -59,6 +59,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		comandoQuery = conexao.prepareStatement(sql);
 		comandoQuery.setString(1, text);
 		resultSet = comandoQuery.executeQuery();
+		
 		if (resultSet.next()) {
 			cliente.setNome(resultSet.getString("mome_cliente"));
 			cliente.setCpf(resultSet.getString("cpf_cliente"));

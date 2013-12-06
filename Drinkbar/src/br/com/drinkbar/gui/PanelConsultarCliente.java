@@ -1,11 +1,13 @@
 package br.com.drinkbar.gui;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.com.drinksaqlite.negocio.Cliente;
 import br.com.drinksaqlite.negocio.FachadaCliente;
@@ -13,7 +15,9 @@ import br.com.drinksaqlite.negocio.FachadaCliente;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.List;
+import javax.swing.JLabel;
 
 public class PanelConsultarCliente extends JPanel {
 	private JTextField textPesquisaCliente;
@@ -24,8 +28,9 @@ public class PanelConsultarCliente extends JPanel {
 	private JTable tabelaCliente;
 	private JScrollPane jScrollPane;
 	private FachadaCliente fachada;
+	private JLabel lblCpf;
 
-	public PanelConsultarCliente() {
+	public PanelConsultarCliente() throws ParseException {
 		setLayout(null);
 
 		painelPesquisaCliente = new JPanel();
@@ -33,8 +38,13 @@ public class PanelConsultarCliente extends JPanel {
 		add(painelPesquisaCliente);
 
 		fachada = new FachadaCliente();
+		
+		lblCpf = new JLabel("Cpf:");
+		painelPesquisaCliente.add(lblCpf);
 
 		textPesquisaCliente = new JTextField();
+		MaskFormatter mascaraCpf = new MaskFormatter("###.###.###-##");
+		textPesquisaCliente = new JFormattedTextField(mascaraCpf);
 		textPesquisaCliente.setColumns(30);
 		painelPesquisaCliente.add(textPesquisaCliente);
 
@@ -110,7 +120,7 @@ public class PanelConsultarCliente extends JPanel {
 								clientes.get(i).getEndereco(),
 								clientes.get(i).getCep(),
 								clientes.get(i).getBairro(),
-								//clientes.get(i).getCidade() 
+								clientes.get(i).getCidade() 
 								});
 
 					}

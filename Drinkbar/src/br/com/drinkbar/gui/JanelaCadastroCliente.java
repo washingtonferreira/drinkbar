@@ -249,12 +249,19 @@ public class JanelaCadastroCliente extends JFrame {
 		modeloTabela.addColumn("Nome");
 		modeloTabela.addColumn("Cpf");
 		modeloTabela.addColumn("Telefone");
+		
+		
 		tabelaCliente.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tabelaCliente.getColumnModel().getColumn(0).setResizable(false);
 		tabelaCliente.getColumnModel().getColumn(1).setPreferredWidth(20);
 		tabelaCliente.getColumnModel().getColumn(1).setResizable(false);
 		tabelaCliente.getColumnModel().getColumn(2).setPreferredWidth(20);
 		tabelaCliente.getColumnModel().getColumn(2).setResizable(false);
+		
+		int linhaSelecionada = tabelaCliente.getSelectedRow();
+		tabelaCliente.setEditingRow(linhaSelecionada);
+
+		
 		painelTabelaCliente.add(jScrollPane);
 
 	}// fim do metodo criar tabela

@@ -1,6 +1,7 @@
 package br.com.drinkbar.gui;
 
 import java.awt.BorderLayout;
+import java.text.ParseException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,7 +15,7 @@ public class FrameMaimCliente extends JFrame {
 	private JTabbedPane tabbedPane;
 	private PanelConsultarCliente painelConsultaCliente;
 
-	public FrameMaimCliente() {
+	public FrameMaimCliente() throws ParseException {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 720, 551);
 		setLocationRelativeTo(null);
