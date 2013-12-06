@@ -1,9 +1,9 @@
 package br.com.drinkbar.dados;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.drinksaqlite.negocio.Bebida;
-import br.com.drinksaqlite.negocio.Cliente;
 import br.com.drinksaqlite.negocio.IRepositorioBebida;
 
 public class RepositorioBabidaDao extends ConectaSqlite implements
@@ -16,8 +16,31 @@ public class RepositorioBabidaDao extends ConectaSqlite implements
 	}
 
 	@Override
-	public List<Bebida> pesquisarBebida(String text) throws Exception {
-		return null;
+	public List<Bebida> pesquisarBebida(String tipo) throws Exception {
+
+		List<Bebida> bebidas = new ArrayList<>();
+
+		Bebida bebida = new Bebida();
+
+		sql = "SELECT * FROM bebida WHERE tipo_bebida = ?";
+		abrirConexao();
+		comandoQuery = conexao.prepareStatement(sql);
+		comandoQuery.setString(1, tipo);
+		resultSet = comandoQuery.executeQuery();
+
+		if (resultSet.next()) {
+
+			bebida.setDataFabricacao(resultSet
+					.getString("dataFabricacao_bebida"));
+			bebida.setFabricante(resultSet.getString("fabricante_bebida"));
+			bebida.setNome(resultSet.getString("nome_bebida"));
+			bebida.setPreco(resultSet.getDouble("preco_bebida"));
+			bebida.setTipo(resultSet.getString("tipo_bebida"));
+			bebidas.add(bebida);
+
+		}
+
+		return bebidas;
 	}
 
 	@Override
@@ -39,7 +62,6 @@ public class RepositorioBabidaDao extends ConectaSqlite implements
 			throw new Exception("Bebida cadasrado com sucesso!!");
 
 		}
-		fecharConexaoBancoDados();
 
 	}
 

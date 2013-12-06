@@ -136,7 +136,7 @@ public class TelaConsultaCliente extends JFrame {
 
 			}
 
-		}
+		}// fim do metodo actionPerformed
 	}// fim da classe TratarEvento
 
 }

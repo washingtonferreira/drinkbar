@@ -103,6 +103,7 @@ public class TelaPrincipal extends JFrame {
 		panelBntCliBeer.add(btnClientes);
 
 		btnBebidas = new JButton("Bebidas");
+		btnBebidas.addActionListener(new trataEventos());
 		btnBebidas.setBackground(SystemColor.menu);
 		btnBebidas.setFont(new Font("Verdana", Font.PLAIN, 11));
 		btnBebidas.setIcon(new ImageIcon(TelaPrincipal.class
@@ -194,6 +195,11 @@ public class TelaPrincipal extends JFrame {
 
 				consultaBebida = new JanelaConsultarBebida();
 				consultaBebida.setVisible(true);
+			} else if (evento.getSource() == btnBebidas) {
+
+				FrameMainBebida frameBebida = new FrameMainBebida();
+				frameBebida.setVisible(true);
+
 			}
 		}
 

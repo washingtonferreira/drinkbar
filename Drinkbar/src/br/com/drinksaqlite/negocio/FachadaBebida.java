@@ -1,5 +1,7 @@
 package br.com.drinksaqlite.negocio;
 
+import java.util.List;
+
 import br.com.drinkbar.dados.RepositorioBabidaDao;
 
 public class FachadaBebida {
@@ -17,4 +19,9 @@ public class FachadaBebida {
 		this.repBebida.cadastrarBebida(novoBebida);
 	}
 
+	public List<Bebida> pesquisarBebida(String tipo) throws Exception {
+
+		return this.repBebida.pesquisarBebida(tipo);
+
+	}
 }

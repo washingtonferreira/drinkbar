@@ -1,36 +1,36 @@
 package br.com.drinkbar.gui;
 
 import java.awt.BorderLayout;
-import java.text.ParseException;
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 
-public class FrameMaimCliente extends JFrame {
+public class FrameMainBebida extends JFrame {
 
 	private JPanel contentPane;
-	private PainelCadastroCliente painelCliente;
 	private JTabbedPane tabbedPane;
-	private PanelConsultarCliente painelConsultaCliente;
+	private PainelConsultarBebida consultarBebida;
+	private PainelCadastroBebida cadastroBebida;
 
-	public FrameMaimCliente() throws ParseException {
+	public FrameMainBebida() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 720, 550);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 
-		painelCliente = new PainelCadastroCliente();
-		painelConsultaCliente = new PanelConsultarCliente();
+		consultarBebida = new PainelConsultarBebida();
+		cadastroBebida = new PainelCadastroBebida();
 
 		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Cadastro", painelCliente);
-		tabbedPane.addTab("Consultar", painelConsultaCliente);
+		tabbedPane.addTab("Cadastro", cadastroBebida);
+		tabbedPane.addTab("Consultar", consultarBebida);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 	}
 

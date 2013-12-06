@@ -1,6 +1,5 @@
 package br.com.drinksaqlite.negocio;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -34,9 +33,9 @@ public class FachadaCliente {
 		//reporCliente.fecharConexaoBancoDados();
 	}
 
-	public List<Cliente> pesquisarCliente(String text) throws Exception {
+	public List<Cliente> pesquisarCliente(String cpf) throws Exception {
 
-		return this.reporCliente.pesquisarCliente(text);
+		return this.reporCliente.pesquisarCliente(cpf);
 
 	}
 

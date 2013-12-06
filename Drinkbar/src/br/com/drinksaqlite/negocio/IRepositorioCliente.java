@@ -15,7 +15,7 @@ public interface IRepositorioCliente {
 
 	public boolean existeCliente(String cpf) throws Exception;
 
-	public List<Cliente> pesquisarCliente(String text) throws Exception;
+	public List<Cliente> pesquisarCliente(String tipo) throws Exception;
 
 	public void cadastrarCliente(Cliente novoCliente) throws Exception;
 

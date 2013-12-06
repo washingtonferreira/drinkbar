@@ -49,7 +49,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 	}
 
 	@Override
-	public List<Cliente> pesquisarCliente(String text) throws Exception {
+	public List<Cliente> pesquisarCliente(String cpf) throws Exception {
 
 		List<Cliente> clientes = new ArrayList<>();
 		Cliente cliente = new Cliente();
@@ -57,7 +57,7 @@ public class RecpositorioClienteDao extends ConectaSqlite implements
 		sql = "SELECT * FROM cliente WHERE cpf_cliente = ?";
 		abrirConexao();
 		comandoQuery = conexao.prepareStatement(sql);
-		comandoQuery.setString(1, text);
+		comandoQuery.setString(1, cpf);
 		resultSet = comandoQuery.executeQuery();
 		
 		if (resultSet.next()) {

@@ -1,67 +1,61 @@
 package br.com.drinkbar.gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JSlider;
+import javax.swing.table.DefaultTableModel;
 
 import br.com.drinksaqlite.negocio.Bebida;
 import br.com.drinksaqlite.negocio.FachadaBebida;
 
-public class JanelaConsultarBebida extends JFrame {
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
-	private JPanel contentPane;
-	private JTextField textPesquisaBebida;
+public class PainelConsultarBebida extends JPanel {
+	private JTextField textPesquisa;
 	private JPanel painelTabelaBebida;
+	private JLabel lbTipo;
 	private JPanel panel;
-	private JLabel lblTipo;
-	private JButton btnPesquisa;
+	private JButton btnPesquisar;
 	private DefaultTableModel modeloTabela;
 	private JTable tabelaCliente;
 	private JScrollPane jScrollPane;
 
-	public JanelaConsultarBebida() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(500, 500);
-		setLocationRelativeTo(null);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	/**
+	 * Create the panel.
+	 */
+	public PainelConsultarBebida() {
+		setLayout(null);
 
 		panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
+		panel.setBounds(0, 0, 694, 39);
+		add(panel);
 
-		lblTipo = new JLabel("Tipo:");
-		panel.add(lblTipo);
+		lbTipo = new JLabel("Tipo:");
+		panel.add(lbTipo);
 
-		textPesquisaBebida = new JTextField();
-		panel.add(textPesquisaBebida);
-		textPesquisaBebida.setColumns(20);
+		textPesquisa = new JTextField();
+		panel.add(textPesquisa);
+		textPesquisa.setColumns(20);
 
-		btnPesquisa = new JButton("Pesquisar");
-		btnPesquisa.addActionListener(new TrataEventos());
-		panel.add(btnPesquisa);
+		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new TrataEventos());
+		panel.add(btnPesquisar);
 
 		painelTabelaBebida = new JPanel();
-		contentPane.add(painelTabelaBebida, BorderLayout.CENTER);
+		painelTabelaBebida.setBounds(10, 46, 674, 400);
+		add(painelTabelaBebida);
 		painelTabelaBebida.setLayout(new BorderLayout(0, 0));
 
 		criarTabela();
+
 	}
 
 	// metodo responsavel por criar uma tabela
@@ -99,11 +93,10 @@ public class JanelaConsultarBebida extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			if (e.getSource() == btnPesquisa) {
+			if (e.getSource() == btnPesquisar) {
 
 				try {
-					bebidas = fachada.pesquisarBebida(textPesquisaBebida
-							.getText());
+					bebidas = fachada.pesquisarBebida(textPesquisa.getText());
 
 					for (int i = 0; i < bebidas.size(); i++) {
 
@@ -116,11 +109,11 @@ public class JanelaConsultarBebida extends JFrame {
 					}
 
 				} catch (Exception e1) {
-				
+
 				}
 
 			}
 		}
 
-	}// fim da classe  actionPerformed
+	}// fim da classe actionPerformed
 }
