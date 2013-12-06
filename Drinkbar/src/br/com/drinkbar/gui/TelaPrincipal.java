@@ -10,6 +10,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import java.awt.GridLayout;
 
@@ -42,6 +44,8 @@ public class TelaPrincipal extends JFrame {
 	private JButton btnVendas;
 	private JPanel panelLogMarca;
 	private JLabel lblLogMarca;
+	private JMenu mnNewMenu;
+	private JMenuItem itemMenuSobre;
 
 	public TelaPrincipal() {
 		super("Drinks Bar");
@@ -51,6 +55,13 @@ public class TelaPrincipal extends JFrame {
 
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+
+		mnNewMenu = new JMenu("Ajuda");
+		menuBar.add(mnNewMenu);
+
+		itemMenuSobre = new JMenuItem("Sobre o DrinkBar");
+		itemMenuSobre.addActionListener(new trataEventos());
+		mnNewMenu.add(itemMenuSobre);
 
 		mnCadastros = new JMenu("CADASTROS");
 		menuBar.add(mnCadastros);
@@ -141,6 +152,7 @@ public class TelaPrincipal extends JFrame {
 		private FrameMaimCliente frameCliente;
 		private JanelaVenda janelaVenda;
 		private JanelaConsultarBebida consultaBebida;
+		private FrameMainBebida frameBebida;
 
 		@Override
 		public void actionPerformed(ActionEvent evento) {
@@ -197,8 +209,31 @@ public class TelaPrincipal extends JFrame {
 				consultaBebida.setVisible(true);
 			} else if (evento.getSource() == btnBebidas) {
 
-				FrameMainBebida frameBebida = new FrameMainBebida();
+				frameBebida = new FrameMainBebida();
 				frameBebida.setVisible(true);
+
+			} else if (evento.getSource() == itemMenuSobre) {
+
+				String diego = "Diego Santos";
+				String fernando = "Fernando";
+				String washington = "Washington Ferreira";
+
+				String sobre = "Drink´s Bar foi desenvolvido com a finalidade\n"
+						+ "de apresentarmos em sala de aula,projeto equivalente a P2.\n"
+						+ "é um sistema responsável por grenciar as diversas operações\n"
+						+ "existente no dia dia de um Bar,\ntais tarefas pode ser gerenciada por ele:\n"
+						+ " cadastrar cliente,consultar cliente,consultar histórico de compra \n"
+						+ "e venda,cadastrar bebida e consultar bebidas etc.\n\nDesenvolvedores: "
+						+ diego + "\n" + fernando + "\n" + washington + "\n";
+
+				JTextArea output = new JTextArea();
+				output.setEditable(false);
+				output.setEnabled(false);
+				output.setText(sobre);
+				JOptionPane
+						.showMessageDialog(null, output,
+								"Locadora Passa Tempo",
+								JOptionPane.INFORMATION_MESSAGE);
 
 			}
 		}
